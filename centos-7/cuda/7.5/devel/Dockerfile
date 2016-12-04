@@ -15,6 +15,7 @@ RUN yum install -y \
         cuda-npp-dev-$CUDA_PKG_VERSION \
         cuda-cudart-dev-$CUDA_PKG_VERSION \
         cuda-driver-dev-$CUDA_PKG_VERSION \
+        yum-utils cpio \
         gcc-c++ && \
     rm -rf /var/cache/yum/*
 

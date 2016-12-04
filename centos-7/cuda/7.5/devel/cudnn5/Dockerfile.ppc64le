@@ -1,0 +1,15 @@
+FROM cuda:7.5-devel
+MAINTAINER NVIDIA CORPORATION <digits@nvidia.com>
+
+ENV CUDNN_VERSION 5
+LABEL com.nvidia.cudnn.version="5"
+
+RUN yum install -y tar curl gzip && \
+    rm -rf /var/cache/yum/*
+
+RUN CUDNN_DOWNLOAD_SUM=ba8672e317661bd9bf8db7e98442100a5fd6cc9e9221c97cda88d14dd879ac72 && \
+    curl -fsSL http://developer.download.nvidia.com/compute/redist/cudnn/v5.1/cudnn-7.5-linux-ppc64le-v5.1.tgz -O && \
+    echo "$CUDNN_DOWNLOAD_SUM  cudnn-7.5-linux-ppc64le-v5.1.tgz" | sha256sum -c --strict - && \
+    tar -xzf cudnn-7.5-linux-ppc64le-v5.1.tgz -C /usr/local && \
+    rm cudnn-7.5-linux-ppc64le-v5.1.tgz && \
+    ldconfig
