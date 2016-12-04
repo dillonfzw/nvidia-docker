@@ -28,7 +28,7 @@ BUILD_ARCH = .$(shell uname -m)
 ifneq ($(BUILD_ARCH),.ppc64le)
     BUILD_ARCH =
 else
-	PKG_ARCH = $(BUILD_ARCH)
+	PKG_ARCH = ppc64le
 endif
 
 DOCKER_VERS      := $(shell $(NV_DOCKER) version -f '{{.Client.Version}}')
