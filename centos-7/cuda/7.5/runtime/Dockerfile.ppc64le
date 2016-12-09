@@ -1,4 +1,4 @@
-FROM centos:7
+FROM ppc64le/centos:7
 MAINTAINER NVIDIA CORPORATION <digits@nvidia.com>
 
 LABEL com.nvidia.volumes.needed="nvidia_driver"
