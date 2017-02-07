@@ -7,7 +7,7 @@ LABEL com.nvidia.cudnn.version="5"
 RUN yum install -y tar curl gzip && \
     rm -rf /var/cache/yum/*
 
-RUN CUDNN_DOWNLOAD_SUM=ba8672e317661bd9bf8db7e98442100a5fd6cc9e9221c97cda88d14dd879ac72 && \
+RUN CUDNN_DOWNLOAD_SUM=75dfbdf59cdb3d434af5fd0333c383cabe4e54c36ec65b91ee0a71825aa37788 && \
     curl -fsSL http://developer.download.nvidia.com/compute/redist/cudnn/v5.1/cudnn-7.5-linux-ppc64le-v5.1.tgz -O && \
     echo "$CUDNN_DOWNLOAD_SUM  cudnn-7.5-linux-ppc64le-v5.1.tgz" | sha256sum -c --strict - && \
     tar -xzf cudnn-7.5-linux-ppc64le-v5.1.tgz -C /usr/local && \
