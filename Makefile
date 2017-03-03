@@ -6,7 +6,7 @@ OS ?= ubuntu-14.04
 USERNAME ?= nvidia
 WITH_PUSH_SUFFIX ?= 0
 ifeq ($(WITH_PUSH_SUFFIX), 1)
-	PUSH_SUFFIX := -$(subst -,,$(OS))
+	PUSH_SUFFIX ?= -$(subst -,,$(OS))
 endif
 
 .NOTPARALLEL:
@@ -59,15 +59,20 @@ clean-images:
 
 # Tag all images with the Docker Hub username as a prefix, push them and untag everything.
 dockerhub_push = \
-$(NV_DOCKER) images | awk '$$1 == "$(1)" {print $$1":"$$2}' | xargs -I{} $(NV_DOCKER) tag {} $(USERNAME)/{}$(PUSH_SUFFIX) && \
-($(NV_DOCKER) push $(USERNAME)/$(1) || true) && \
-$(NV_DOCKER) images | awk '$$1 == "$(USERNAME)/$(1)" {print $$1":"$$2}' | xargs -r $(NV_DOCKER) rmi
+$(NV_DOCKER) images | awk '$$1 == "$(1)" {print $$1,$$2}' | \
+while read repo tag; do \
+  img_old=$${repo}:$${tag}; \
+  img_new=$(USERNAME)/$${repo}$(PUSH_SUFFIX):$${tag}; \
+  $(NV_DOCKER) tag $${img_old} $$img_new && \
+  ($(NV_DOCKER) push $$img_new || true) && \
+  $(NV_DOCKER) rmi $$img_new; \
+done
 
 # Download all images from the Docker Hub and retag them to remove the prefix.
 dockerhub_pull = \
-$(NV_DOCKER) pull --all-tags $(USERNAME)/$(1) && \
-$(NV_DOCKER) images | awk '$$1 == "$(USERNAME)/$(1)" {print $$2}' | \
-  xargs -I{} sh -c '$(NV_DOCKER) tag $(USERNAME)/$(1):{} $(1):{} ; $(NV_DOCKER) rmi $(USERNAME)/$(1):{}'
+$(NV_DOCKER) pull --all-tags $(USERNAME)/$(1)$(PUSH_SUFFIX) && \
+$(NV_DOCKER) images | awk '$$1 == "$(USERNAME)/$(1)$(PUSH_SUFFIX)" {print $$2}' | \
+  xargs -I{} sh -c '$(NV_DOCKER) tag $(USERNAME)/$(1)$(PUSH_SUFFIX):{} $(1):{} ; $(NV_DOCKER) rmi $(USERNAME)/$(1)$(PUSH_SUFFIX):{}'
 
 push:
 	$(call dockerhub_push,cuda)
