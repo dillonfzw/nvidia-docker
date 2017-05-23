@@ -1,4 +1,4 @@
-# Ubuntu 16.04 [![build status](https://gitlab.com/nvidia/cuda/badges/ubuntu16.04/build.svg)](https://gitlab.com/nvidia/cuda/commits/ubuntu16.04)
+# Ubuntu 16.04 [![build status](https://gitlab.com/nvidia/cuda-ppc64le/badges/ubuntu16.04/build.svg)](https://gitlab.com/nvidia/cuda-ppc64le/commits/ubuntu16.04)
 
 ## CUDA 8.0
 - [`8.0-runtime`, `8.0-runtime-ubuntu16.04` (*8.0/runtime/Dockerfile*)](https://gitlab.com/nvidia/cuda-ppc64le/blob/ubuntu16.04/8.0/runtime/Dockerfile)
