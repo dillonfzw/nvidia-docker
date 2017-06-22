@@ -2,6 +2,7 @@
 
 CUDA_VERSIONS := 8.0
 
-CUDNN_VERSIONS := 8.0-cudnn5
+CUDNN_VERSIONS := 8.0-cudnn6 \
+                  8.0-cudnn5
 
 include ../../mk/cuda.mk
