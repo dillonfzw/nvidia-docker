@@ -22,17 +22,21 @@ stages:
                    --label "com.nvidia.build.ref=${CI_COMMIT_SHA}"
                    --label "com.nvidia.build.id=${CI_JOB_ID}"
                    "${VERSION}/runtime"
+    - docker push "${REPOSITORY}:${VERSION}-runtime-${OS}"
     - docker build -t "${REPOSITORY}:${VERSION}-devel-${OS}"
                    --volume "${QEMU_PPC64LE}:${QEMU_PPC64LE}"
                    "${VERSION}/devel"
+    - docker push "${REPOSITORY}:${VERSION}-devel-${OS}"
     - if [[ "${NO_OS_SUFFIX}" == true ]]; then
           docker tag "${REPOSITORY}:${VERSION}-runtime-${OS}" "${REPOSITORY}:${VERSION}-runtime";
+          docker push "${REPOSITORY}:${VERSION}-runtime";
           docker tag "${REPOSITORY}:${VERSION}-devel-${OS}" "${REPOSITORY}:${VERSION}-devel";
+          docker push "${REPOSITORY}:${VERSION}-devel";
       fi
     - if [[ "${LATEST}" == true ]]; then
           docker tag "${REPOSITORY}:${VERSION}-devel-${OS}" "${REPOSITORY}:latest";
+          docker push "${REPOSITORY}:latest";
       fi
-    - docker push "${REPOSITORY}"
 
 .cudnn_template: &cudnn_definition
     stage: cudnn
@@ -43,14 +47,17 @@ stages:
     - docker build --pull -t "${REPOSITORY}:${VERSION}-runtime-${OS}"
                    --volume "${QEMU_PPC64LE}:${QEMU_PPC64LE}"
                    "${CUDA_VERSION}/runtime/${CUDNN_VERSION}"
+    - docker push "${REPOSITORY}:${VERSION}-runtime-${OS}"
     - docker build --pull -t "${REPOSITORY}:${VERSION}-devel-${OS}"
                    --volume "${QEMU_PPC64LE}:${QEMU_PPC64LE}"
                    "${CUDA_VERSION}/devel/${CUDNN_VERSION}"
+    - docker push "${REPOSITORY}:${VERSION}-devel-${OS}"
     - if [[ "${NO_OS_SUFFIX}" == true ]]; then
           docker tag "${REPOSITORY}:${VERSION}-runtime-${OS}" "${REPOSITORY}:${VERSION}-runtime";
+          docker push "${REPOSITORY}:${VERSION}-runtime";
           docker tag "${REPOSITORY}:${VERSION}-devel-${OS}" "${REPOSITORY}:${VERSION}-devel";
+          docker push "${REPOSITORY}:${VERSION}-devel";
       fi
-    - docker push "${REPOSITORY}"
 
 v8.0:
     <<: *cuda_definition
