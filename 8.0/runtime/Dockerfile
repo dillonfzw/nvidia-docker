@@ -24,7 +24,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         cuda-cusparse-$CUDA_PKG_VERSION \
         cuda-npp-$CUDA_PKG_VERSION \
         cuda-cudart-$CUDA_PKG_VERSION && \
-    ln -s cuda-$CUDA_VERSION /usr/local/cuda && \
+    ln -s cuda-8.0 /usr/local/cuda && \
     rm -rf /var/lib/apt/lists/*
 
 RUN echo "/usr/local/cuda/lib64" >> /etc/ld.so.conf.d/cuda.conf && \
