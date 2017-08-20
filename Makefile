@@ -63,7 +63,13 @@ $(NV_DOCKER) images | awk '$$1 == "$(1)" {print $$1,$$2}' | \
 while read repo tag; do \
   img_old=$${repo}:$${tag}; \
   img_new=$(USERNAME)/$${repo}$(PUSH_SUFFIX):$${tag}; \
-  $(NV_DOCKER) tag $${img_old} $$img_new && \
+  $(NV_DOCKER) tag $${img_old} $$img_new && { \
+    echo; \
+    echo "+-----------------------------------------------------------"; \
+    echo "| Push image \"$$img_new\" to hub ..."; \
+    echo "+-----------------------------------------------------------"; \
+    echo; \
+  } | sed -e 's/^/>> /g' && \
   ($(NV_DOCKER) push $$img_new || true) && \
   $(NV_DOCKER) rmi $$img_new; \
 done
