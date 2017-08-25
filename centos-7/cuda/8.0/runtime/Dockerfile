@@ -24,7 +24,7 @@ RUN yum install -y \
         cuda-npp-$CUDA_PKG_VERSION \
         cuda-cudart-$CUDA_PKG_VERSION && \
     ln -s cuda-$CUDA_VERSION /usr/local/cuda && \
-    rm -rf /var/cache/yum/*
+    yum clean all
 
 RUN echo "/usr/local/cuda/lib" >> /etc/ld.so.conf.d/cuda.conf && \
     echo "/usr/local/cuda/lib64" >> /etc/ld.so.conf.d/cuda.conf && \
