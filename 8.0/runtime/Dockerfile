@@ -1,4 +1,4 @@
-FROM ppc64le/centos:7
+FROM ibmcom/centos-ppc64le:7
 LABEL maintainer "NVIDIA CORPORATION <cudatools@nvidia.com>"
 
 LABEL com.nvidia.volumes.needed="nvidia_driver"
