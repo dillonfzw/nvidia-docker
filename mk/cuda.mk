@@ -33,6 +33,9 @@ devel: $(CUDA_LATEST)
 runtime: $(CUDA_LATEST)-runtime
 	$(NV_DOCKER) tag cuda:$< cuda:$@
 
+9.0: 9.0-devel $(CURDIR)/9.0
+	$(NV_DOCKER) tag cuda:$< cuda:$@
+
 8.0: 8.0-devel $(CURDIR)/8.0
 	$(NV_DOCKER) tag cuda:$< cuda:$@
 
@@ -91,3 +94,9 @@ cudnn-runtime: $(CUDNN_LATEST)-runtime
 
 %-cudnn6-runtime: %-runtime $(CURDIR)/%/runtime/cudnn6/Dockerfile$(BUILD_ARCH)
 	$(NV_DOCKER) build -t cuda:$@ -f $(CURDIR)/$*/runtime/cudnn6/Dockerfile$(BUILD_ARCH) $(CURDIR)/$*/runtime/cudnn6
+
+%-cudnn7-devel: %-devel $(CURDIR)/%/devel/cudnn7/Dockerfile$(BUILD_ARCH)
+	$(NV_DOCKER) build -t cuda:$@ -f $(CURDIR)/$*/devel/cudnn7/Dockerfile$(BUILD_ARCH) $(CURDIR)/$*/devel/cudnn7
+
+%-cudnn7-runtime: %-runtime $(CURDIR)/%/runtime/cudnn7/Dockerfile$(BUILD_ARCH)
+	$(NV_DOCKER) build -t cuda:$@ -f $(CURDIR)/$*/runtime/cudnn7/Dockerfile$(BUILD_ARCH) $(CURDIR)/$*/runtime/cudnn7

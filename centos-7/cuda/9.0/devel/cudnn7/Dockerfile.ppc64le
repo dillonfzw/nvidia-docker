@@ -1,0 +1,16 @@
+FROM cuda:9.0-devel
+MAINTAINER NVIDIA CORPORATION <digits@nvidia.com>
+
+ENV CUDNN_VERSION 7.0.3
+LABEL com.nvidia.cudnn.version="${CUDNN_VERSION}"
+
+RUN yum install -y tar gzip && \
+    rm -rf /var/cache/yum/*
+
+# cuDNN license: https://developer.nvidia.com/cudnn/license_agreement
+RUN CUDNN_DOWNLOAD_SUM=27d5f5b950348e0aea732497ebe3eb01babea978af25516db74a0433d72dcc9e && \
+    curl -fsSL http://bejgsa.ibm.com/home/f/u/fuzhiwen/Public/nvidia/cudnn-9.0-linux-ppc64le-v7.tar.gz -O && \
+    echo "$CUDNN_DOWNLOAD_SUM  cudnn-9.0-linux-ppc64le-v7.tgz" | sha256sum -c - && \
+    tar --no-same-owner -xzf cudnn-9.0-linux-ppc64le-v7.tgz -C /usr/local && \
+    rm cudnn-9.0-linux-ppc64le-v7.tgz && \
+    ldconfig
