@@ -1,8 +1,7 @@
 # Copyright (c) 2016, NVIDIA CORPORATION. All rights reserved.
 
-CUDA_VERSIONS := 8.0
+CUDA_VERSIONS := 9.0
 
-CUDNN_VERSIONS := 8.0-cudnn6 \
-                  8.0-cudnn5
+CUDNN_VERSIONS := 9.0-cudnn7
 
 include ../../mk/cuda.mk
